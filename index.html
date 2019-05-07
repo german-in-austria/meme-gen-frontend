@@ -118,7 +118,7 @@
         </div>
       </div>
       <div class="row">
-        <button id="save" class="btn btn-default mb-5">Absenden</button>
+        <button id="save" class="btn btn-default mb-5">Senden & Download</button>
       </div>
     </form>
   </div>
@@ -133,10 +133,26 @@
       return $('form.personal').serializeArray()
     }
 
+    $.fn.memeGenerator("i18n", "de", {
+      topTextPlaceholder: "TEXT OBEN",
+      bottomTextPlaceholder: "TEXT UNTEN",
+      addTextbox: "Textfeld hinzufügen",
+    })
+
     $(document).ready(function(){
       $("#meme").memeGenerator({
         // useBootstrap: true,
         layout: 'horizontal',
+        defaultTextStyle: {
+          color: "#FFFFFF",
+          size: 80,
+          lineHeight: 1.2,
+          font: "Impact, Arial",
+          style: "normal",
+          forceUppercase: true,
+          borderColor: "#000000",
+          borderWidth: 4,
+        },
         showAdvancedSettings: false,
         captions: [
           'Text oben',
@@ -153,6 +169,7 @@
             } else {
               console.log('valid')
               var imageDataUrl = $("#meme").memeGenerator("save")
+              $("#meme").memeGenerator("download", "image.png");
               $.ajax({
                 url: "/sendmail",
                 type: "POST",
@@ -163,9 +180,7 @@
                 }),
                 dataType: "json",
                 success: function(response){
-                    // $("#preview").html(
-                    //     $("<img>").attr("src", response.filename)
-                    // );
+                  
                 }
               })
             }
