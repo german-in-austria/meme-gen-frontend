@@ -52,7 +52,7 @@ app.post('/sendmail', (req, res) => {
   res.send('sending!')
   transporter.sendMail({
     from: 'lioe@dioe.at',
-    to: [ process.env.SEND_TO.split(',') ],
+    to: process.env.SEND_TO.split(','),
     subject: "Message title",
     text: "Plaintext version of the message",
     html: req.body.personal.map((t: any) => {
